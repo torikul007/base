@@ -1,35 +1,37 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwYdcmsg23xUzO-wRXw0oXv-rONQ-7tkj6x8tPNxy_XffFgQeO3exBVUC1Hyy21lvKZ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzJuc0kYSTOotMYQvliRmq1MAHhGZ4BGAiusrpFbC3bBAiKAWHJGdJ0i6-NPcqnkiXF/exec";
 
 async function login() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const msg = document.getElementById("msg");
 
   if (!email || !password) {
-    alert("Please fill all fields");
+    msg.style.color = "red";
+    msg.innerText = "Please fill all fields";
     return;
   }
 
+  msg.style.color = "black";
+  msg.innerText = "Logging in...";
+
   try {
-    const res = await fetch(API_URL, {
+    const res = await fetch(WEB_APP_URL, {
       method: "POST",
-      mode: "no-cors",   // IMPORTANT for Google Script
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
+      body: JSON.stringify({ email, password })
     });
 
-    // no-cors = cannot read response, assume success
-    alert("Login successful ✔ Data stored in Google Sheet");
+    const data = await res.json();
 
-    document.getElementById("msg").innerText =
-      "Saved: " + email;
+    if (data.status === "success") {
+      msg.style.color = "green";
+      msg.innerText = "Login saved to Sheet ✔";
+    } else {
+      msg.style.color = "red";
+      msg.innerText = "Something went wrong";
+    }
 
-  } catch (err) {
-    console.error(err);
-    alert("Error sending data");
+  } catch (error) {
+    msg.style.color = "red";
+    msg.innerText = "Network error";
   }
 }
