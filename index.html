@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Modern Login</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
 <div class="card">
-  <h2>Welcome Back</h2>
-  <p class="sub">Please login to continue</p>
+  <h2>Login</h2>
 
-  <input id="email" type="email" placeholder="Email">
+  <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
 
   <button onclick="login()">Login</button>
@@ -18,7 +9,17 @@
   <p id="msg"></p>
 </div>
 
-<script src="app.js"></script>
-
-</body>
-</html>
+<!-- LIVE DATA TABLE -->
+<div class="table-box">
+  <h3>Sheet Data (Live)</h3>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="sheetData"></tbody>
+  </table>
+</div>
